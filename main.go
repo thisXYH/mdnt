@@ -25,8 +25,7 @@ func init() {
 }
 
 func main() {
-	//flag.Parse()
-	flag.CommandLine.Parse([]string{"-ri"})
+	flag.Parse()
 
 	// 移除没有引用了的图片资源。
 	if removeImage {
@@ -46,6 +45,8 @@ func removeImageFunc() {
 
 		switch ext := filepath.Ext(path); ext {
 		case ".png":
+			fallthrough
+		case ".jpg":
 			images[info.Name()] = path
 
 		case ".md":
@@ -62,7 +63,6 @@ func removeImageFunc() {
 	})
 
 	fmt.Println("当前有", len(images), "个图片文件!")
-
 	for _, v := range usedImages {
 		if _, ok := images[v]; ok {
 			delete(images, v)
