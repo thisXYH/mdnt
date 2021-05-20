@@ -33,6 +33,12 @@ func main() {
 	}
 }
 
+/*
+	1. 获取当前目录下的所有图片文件
+	2. 解析出markdown笔记中的图片引用
+		eg: ![comment](/../../imageName.png)
+	3. 移除没有被引用的图片文件
+*/
 func removeImageFunc() {
 	images := make(map[string]string, 100)
 	usedImages := make([]string, 0, 100)
@@ -52,7 +58,7 @@ func removeImageFunc() {
 		case ".md":
 			byteBuff, _ := os.ReadFile(path)
 			content := string(byteBuff)
-			re := regexp.MustCompile(`!\[[\S\s]*?\]\([\S\s]+?/(.+png)\)`)
+			re := regexp.MustCompile(`!\[.*\]\(.+/(.+(?:\.png|\.jpg))\)`)
 
 			for _, v := range re.FindAllStringSubmatch(content, -1) {
 				usedImages = append(usedImages, v[1])
