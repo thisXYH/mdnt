@@ -11,7 +11,7 @@ import (
 var imagesOps *images.Options = &images.Options{}
 
 var imagesCmd = &cobra.Command{
-	Use:   "img [options]",
+	Use:   "img",
 	Short: "管理 markdown 文档的图片引用",
 	Long:  "管理 markdown 文档的图片引用，以及对应的图片文件",
 	RunE: func(cmd *cobra.Command, args []string) error {
