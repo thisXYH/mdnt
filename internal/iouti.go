@@ -1,4 +1,4 @@
-package cmd
+package internal
 
 import (
 	"bufio"
@@ -7,7 +7,7 @@ import (
 )
 
 // 判断文件或者目录是否存在
-func isFileOrDirExist(addr string) bool {
+func IsFileOrDirExist(addr string) bool {
 	_, err := os.Stat(addr)
 	if err != nil {
 		return os.IsExist(err)
@@ -15,8 +15,9 @@ func isFileOrDirExist(addr string) bool {
 	return true
 }
 
-func writeToFile(fileName string, content string) error {
-	f, err := os.OpenFile(fileName, os.O_WRONLY|os.O_TRUNC, 0666)
+// WriteToFile 覆盖式写入文件，如果文件不存在则创建写入
+func WriteToFile(fileName string, content string) error {
+	f, err := os.OpenFile(fileName, os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "file write failed. err: "+err.Error())
 	} else {

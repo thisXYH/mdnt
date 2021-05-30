@@ -1,9 +1,11 @@
-package types
+package internal
 
 import "sync"
 
 type any interface{}
-type Set interface {
+
+// Seter
+type Seter interface {
 	Add(any) bool
 	Del(any)
 	IsExist(any) bool
@@ -11,6 +13,7 @@ type Set interface {
 	Iterator() []any
 }
 
+// MySet 自定义的一个线程安全的set
 type MySet struct {
 	inner map[any]bool
 	mu    *sync.RWMutex
