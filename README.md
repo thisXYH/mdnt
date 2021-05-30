@@ -1,5 +1,6 @@
 # 摘要
-做 `MarkDown` 笔记的时候用到的辅助工具集
+维护 `Markdown` 笔记的工具集,方便日常`Markdown`的维护。
+比如: 移动了笔记的位置，导致引用的图片路径对不上的问题。
 
 ## 功能
 * 引用图片处理
@@ -16,20 +17,16 @@
 
 ## 如何使用
 ````
-Usag: nt command [options]
+Usage:
+  nt [command]
 
-Commands:
-        img     图片管理
+Available Commands:
+  help        Help about any command
+  img         管理 markdown 文档的图片引用
 
-Detail: nt <command> -h 查看详情
+Flags:
+  -h, --help      help for nt
+  -v, --version   version for nt
 
-Command img :
-  -d    删除无引用的图片，否则只打印路径
-  -f    修复引用图片的相对路径，否则只打印路径
-  -h    显示帮助菜单
-  -i string
-        图片目录，不能为空
-  -m string
-        文档目录，不能为空
-  -w    下载引用的网络图片，否则只打印路径
+Use "nt [command] --help" for more information about a command.
 ````
