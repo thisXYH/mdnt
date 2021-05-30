@@ -1,4 +1,6 @@
 # 摘要
+[![Go](https://github.com/thisXYH/NoteTools/actions/workflows/go.yml/badge.svg)](https://github.com/thisXYH/NoteTools/actions/workflows/go.yml)
+
 维护 `Markdown` 笔记的工具集,方便日常`Markdown`的维护。
 比如: 移动了笔记的位置，导致引用的图片路径对不上的问题。
 
