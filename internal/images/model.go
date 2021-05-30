@@ -12,20 +12,20 @@ type refStat struct {
 // markdown 解析结果
 type resolvedResult struct {
 	path     string
-	imageSet internal.Set // 引用的图片 set[RefImage]
+	imageSet internal.Seter // 引用的图片 set[RefImage]
 }
 
-type RefImageType int8
+type refImage struct {
+	original     string   // ![comment](xxx/x.png)
+	originalPath string   // xxx/x.png
+	name         string   // x.png
+	pt           pathType // 引用的路径类型
+}
+
+type pathType int8
 
 const (
-	RelImage RefImageType = iota + 1
-	AbsImage
-	WebImage
+	relPath pathType = iota + 1
+	absPath
+	webPath
 )
-
-type RefImage struct {
-	Original     string       // ![comment](xxx/x.png)
-	OriginalPath string       // xxx/x.png
-	Name         string       // x.png
-	Type         RefImageType //是否是网络图片
-}

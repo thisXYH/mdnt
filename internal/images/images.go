@@ -102,11 +102,11 @@ func markdownResolvedCore(fullAddr string, ch chan resolvedResult, wg *sync.Wait
 	*/
 	re := regexp.MustCompile(`!\[.*\]\((.+(?:\\|\/)(.+(?:\.png|\.jpg)))\)`)
 	for _, v := range re.FindAllStringSubmatch(content, -1) {
-		refImag := RefImage{}
-		refImag.Original = v[0]
-		refImag.OriginalPath = v[1]
-		refImag.Name = v[2]
-		refImag.Type = getRefImageType(refImag.OriginalPath)
+		refImag := refImage{}
+		refImag.original = v[0]
+		refImag.originalPath = v[1]
+		refImag.name = v[2]
+		refImag.pt = getRefImageType(refImag.originalPath)
 
 		result.imageSet.Add(refImag)
 	}
@@ -135,13 +135,13 @@ func resolvedResultHandler(refStatMap map[string]*refStat, ch <-chan resolvedRes
 		}
 
 		for _, v := range result.imageSet.Iterator() {
-			temp := v.(RefImage)
+			temp := v.(refImage)
 
-			switch temp.Type {
-			case AbsImage, RelImage:
-				refStatItem, ok := refStatMap[temp.Name]
+			switch temp.pt {
+			case absPath, relPath:
+				refStatItem, ok := refStatMap[temp.name]
 				if !ok {
-					show.WriteString("没找到图片文件：" + temp.OriginalPath + "\n")
+					show.WriteString("没找到图片文件：" + temp.originalPath + "\n")
 					continue
 				}
 
@@ -151,16 +151,16 @@ func resolvedResultHandler(refStatMap map[string]*refStat, ch <-chan resolvedRes
 				if imagesOps.DoRelPathFix {
 					relPath, _ := filepath.Rel(filepath.Dir(result.path), refStatItem.path)
 					relPath = filepath.ToSlash(relPath)
-					content = strings.ReplaceAll(content, temp.OriginalPath, relPath)
-					show.WriteString(temp.OriginalPath + "  =>  " + relPath + "\n")
+					content = strings.ReplaceAll(content, temp.originalPath, relPath)
+					show.WriteString(temp.originalPath + "  =>  " + relPath + "\n")
 				} else {
-					show.WriteString(temp.OriginalPath + "\n")
+					show.WriteString(temp.originalPath + "\n")
 				}
-			case WebImage:
+			case webPath:
 				if imagesOps.DoWebImgDownload {
 					//TODO:
 				} else {
-					show.WriteString(temp.OriginalPath + "\n")
+					show.WriteString(temp.originalPath + "\n")
 				}
 			}
 		}
@@ -199,14 +199,14 @@ func getRefStatMap(imageDir string) <-chan map[string]*refStat {
 	return ch
 }
 
-func getRefImageType(path string) RefImageType {
+func getRefImageType(path string) pathType {
 	if strings.HasPrefix(path, "http://") || strings.HasPrefix(path, "https://") {
-		return WebImage
+		return webPath
 	}
 
 	if filepath.IsAbs(path) {
-		return AbsImage
+		return absPath
 	} else {
-		return RelImage
+		return relPath
 	}
 }

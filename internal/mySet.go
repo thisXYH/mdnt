@@ -4,8 +4,8 @@ import "sync"
 
 type any interface{}
 
-// Set 接口
-type Set interface {
+// Seter
+type Seter interface {
 	Add(any) bool
 	Del(any)
 	IsExist(any) bool
