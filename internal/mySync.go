@@ -39,5 +39,4 @@ func (my *MySync) Wait() {
 			return
 		}
 	}
-
 }
