@@ -1,6 +1,6 @@
 package images
 
-import "nt/internal"
+import "github.com/thisXYH/NoteTools/nt/internal"
 
 // refStat 图片文件的引用统计
 type refStat struct {

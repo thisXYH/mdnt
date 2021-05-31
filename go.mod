@@ -1,4 +1,4 @@
-module nt
+module github.com/thisXYH/NoteTools/nt
 
 go 1.16
 

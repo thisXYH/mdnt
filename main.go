@@ -1,7 +1,7 @@
 package main
 
 import (
-	"nt/cmd"
+	"github.com/thisXYH/NoteTools/nt/cmd"
 )
 
 func main() {

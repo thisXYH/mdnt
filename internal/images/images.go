@@ -2,8 +2,8 @@ package images
 
 import (
 	"fmt"
+	"github.com/thisXYH/NoteTools/nt/internal"
 	"io/fs"
-	"nt/internal"
 	"os"
 	"path/filepath"
 	"regexp"
