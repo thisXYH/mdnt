@@ -2,7 +2,7 @@ package images
 
 import (
 	"fmt"
-	"github.com/thisXYH/NoteTools/nt/internal"
+	"github.com/thisXYH/mdnt/internal"
 	"io/fs"
 	"os"
 	"path/filepath"

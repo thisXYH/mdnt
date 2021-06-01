@@ -3,8 +3,8 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/thisXYH/NoteTools/nt/internal"
-	"github.com/thisXYH/NoteTools/nt/internal/images"
+	"github.com/thisXYH/mdnt/internal"
+	"github.com/thisXYH/mdnt/internal/images"
 	"path/filepath"
 )
 
