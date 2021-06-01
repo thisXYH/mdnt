@@ -158,7 +158,16 @@ func resolvedResultHandler(refStatMap map[string]*refStat, ch <-chan resolvedRes
 				}
 			case webPath:
 				if imagesOps.DoWebImgDownload {
-					//TODO:
+					downPath, err := internal.DownWebImage(temp.originalPath, imagesOps.ImgDir)
+					if err != nil {
+						show.WriteString(fmt.Sprintf("%s  DownLoad Error: %s\n", temp.originalPath, err.Error()))
+					}
+
+					relPath, _ := filepath.Rel(filepath.Dir(result.path), downPath)
+					relPath = filepath.ToSlash(relPath)
+					content = strings.ReplaceAll(content, temp.originalPath, relPath)
+					show.WriteString(temp.originalPath + "  =>  " + relPath + "\n")
+
 				} else {
 					show.WriteString(temp.originalPath + "\n")
 				}
