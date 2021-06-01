@@ -1,4 +1,4 @@
-# 摘要
+# 摘要 mdnt - Markdown Notebook Tool
 [![Go](https://github.com/thisXYH/mdnt/actions/workflows/go.yml/badge.svg)](https://github.com/thisXYH/mdnt/actions/workflows/go.yml)
 
 维护 `Markdown` 笔记的工具集,方便日常`Markdown`的维护。
@@ -9,6 +9,7 @@
     * [X] ~~*删除没有引用的图片文件*~~ [2021-05-29]
     * [X] ~~*修复引用图片的相对路径引用*~~ [2021-05-29]
     * [ ] 引用网络图片转本地图片引用
+  > 部分参数支持从环境变量中读取，详情mdnt help img
 
 ## 如何构建
 * 依赖: Golang 1.16
@@ -19,7 +20,7 @@
 ## 如何使用
 ````
 Usage:
-  nt [command]
+  mdnt [command]
 
 Available Commands:
   help        Help about any command
