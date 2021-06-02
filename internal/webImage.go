@@ -59,7 +59,7 @@ func DownWebImage(url, dir string) (string, error) {
 	}
 	// 生成路径。
 	imagePath := filepath.Join(dir, GenerateHexString(10)+ext)
-	f, err := os.OpenFile(imagePath, os.O_RDWR|os.O_CREATE, 0666)
+	f, _ := os.Create(imagePath)
 	defer f.Close()
 	io.Copy(f, response.Body)
 
@@ -69,7 +69,7 @@ func DownWebImage(url, dir string) (string, error) {
 // GenerateHexString 随机生成指定位数(必须是偶数)的HexString
 func GenerateHexString(len int8) string {
 	if len <= 1 {
-		panic(fmt.Errorf("len must more than 1."))
+		panic("len must more than 1.")
 	}
 
 	buf := make([]byte, len/2)

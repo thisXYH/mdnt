@@ -11,7 +11,7 @@
   * [X] 引用网络图片转本地图片引用  [2021-06-01]
   * [X] 图片目录和笔记目录支持从环境变量读取，详情mdnt help img  [2021-06-01]
 * 加密/解密处理
-  * [ ] 加密/解密指定文件
+  * [X] 加密/解密指定文件
 
 ## 如何构建
 * 依赖: Golang 1.16
@@ -25,6 +25,7 @@ Usage:
   mdnt [command]
 
 Available Commands:
+  enc         加解密指定笔记
   help        Help about any command
   img         管理 markdown 文档的图片引用
 

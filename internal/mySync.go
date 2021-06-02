@@ -32,9 +32,9 @@ func (my *MySync) Done(num int) {
 
 // Wait 通过定时 loop 是否结束
 func (my *MySync) Wait() {
-	ch := time.Tick(time.Millisecond * 1)
+	t := time.NewTicker(time.Millisecond * 1)
 	for {
-		<-ch
+		<-t.C
 		if my.working <= 0 {
 			return
 		}
