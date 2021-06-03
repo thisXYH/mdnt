@@ -2,6 +2,7 @@ package encrypto
 
 import (
 	"crypto/md5"
+	"fmt"
 	"os"
 	"path/filepath"
 
@@ -13,13 +14,19 @@ type Options struct {
 	Password string
 }
 
-func Execute(p Options) error {
+// getKeyAndIv 根据密码获取DES 加密的key 和 iv
+// 这个逻辑不能变动，否则导致之前的加密文件解不开。
+func getKeyAndIv(password string) ([]byte, []byte) {
 	salt := `~@#.s`
-	ext := `.mdnt`
-	p1 := salt + p.Password + salt
+	p1 := salt + password + salt
 	// 16 bytes
 	p1Md5 := md5.Sum([]byte(p1))
-	key, iv := p1Md5[:8], p1Md5[8:16]
+	return p1Md5[:8], p1Md5[8:16]
+}
+
+func Execute(p Options) (err error) {
+	ext := `.mdnt`
+	key, iv := getKeyAndIv(p.Password)
 	src, err := os.ReadFile(p.FilePath)
 	if err != nil {
 		return err
@@ -28,10 +35,14 @@ func Execute(p Options) error {
 	// 加密文件 => 解密
 	if filepath.Ext(p.FilePath) == ext {
 		// 解密
-		plain := internal.DecrptogDES(src, key, iv)
-		os.WriteFile(p.FilePath[:len(p.FilePath)-len(ext)], plain, 0666)
+		plain, err := internal.TryDecrptogDES(src, key, iv)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "password error~")
+			os.Exit(1) //直接给个提示。
+		}
 
-		// 删除解密文件
+		// 写入明文，删除加密文件
+		os.WriteFile(p.FilePath[:len(p.FilePath)-len(ext)], plain, 0666)
 		os.Remove(p.FilePath)
 	} else {
 		// 加密
