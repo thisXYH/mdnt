@@ -33,11 +33,12 @@ func (s stringSlice) Contain(str string) bool {
 	return false
 }
 
-// DownWebImage 下载网络图片，返回图片路径
+// DownWebImage 下载网络图片，返回图片路径，
+// 支持不带文件后缀的路径。
 func DownWebImage(url, dir string) (string, error) {
 	ext := filepath.Ext(url)
 	if ext != "" && !imageExt.Contain(ext) {
-		return "", fmt.Errorf("not image file")
+		ext = "" // 如果后缀拿到的不是图片类型，那么就从Content-Type中拿。
 	}
 
 	response, err := http.Get(url)

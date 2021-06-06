@@ -2,7 +2,7 @@ package cmd
 
 import "github.com/spf13/cobra"
 
-const VERSION = "v1.3.0"
+const VERSION = "v1.3.1"
 
 var rootCmd = &cobra.Command{
 	Use:   "mdnt [command] [flags]",

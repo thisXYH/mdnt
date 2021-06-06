@@ -100,7 +100,7 @@ func markdownResolvedCore(fullAddr string, ch chan resolvedResult, wg *sync.Wait
 		2. 相对路径
 		3. 网络路径
 	*/
-	re := regexp.MustCompile(`!\[.*\]\((.+(?:\\|\/)(.+(?:\.png|\.jpg)))\)`)
+	re := regexp.MustCompile(`!\[.*\]\((.+(?:\\|\/)(.+))\)`)
 	for _, v := range re.FindAllStringSubmatch(content, -1) {
 		refImag := refImage{}
 		refImag.original = v[0]
@@ -141,7 +141,7 @@ func resolvedResultHandler(refStatMap map[string]*refStat, ch <-chan resolvedRes
 			case absPath, relPath:
 				refStatItem, ok := refStatMap[temp.name]
 				if !ok {
-					show.WriteString("没找到图片文件：" + temp.originalPath + "\n")
+					show.WriteString("nof found image directory path:" + temp.originalPath + "\n")
 					continue
 				}
 
@@ -161,6 +161,7 @@ func resolvedResultHandler(refStatMap map[string]*refStat, ch <-chan resolvedRes
 					downPath, err := internal.DownWebImage(temp.originalPath, imagesOps.ImgDir)
 					if err != nil {
 						show.WriteString(fmt.Sprintf("%s  DownLoad Error: %s\n", temp.originalPath, err.Error()))
+						continue
 					}
 
 					relPath, _ := filepath.Rel(filepath.Dir(result.path), downPath)
