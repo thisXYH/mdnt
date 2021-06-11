@@ -17,6 +17,7 @@ type Options struct {
 	DoImgDel         bool
 	DoRelPathFix     bool
 	DoWebImgDownload bool
+	Verbose          bool
 }
 
 var imagesOps Options
@@ -58,7 +59,6 @@ func ImageFileHandler(imageMap map[string]*refStat) {
 		} else {
 			sb.WriteString(k + "\n")
 		}
-
 	}
 	fmt.Println(sb.String())
 }

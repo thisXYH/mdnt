@@ -20,10 +20,10 @@ var imagesOps *images.Options = &images.Options{}
 
 var imagesCmd = &cobra.Command{
 	Use:   "img",
-	Short: "管理 markdown 文档的图片引用",
-	Long:  "管理 markdown 文档的图片引用，以及对应的图片文件",
+	Short: "维护 markdown 文档的图片引用",
+	Long:  "维护 markdown 文档的图片引用，以及对应的图片文件",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		if err := checkAndDealOps(); err != nil {
+		if err := checkAndDealImagesOps(); err != nil {
 			return err
 		}
 
@@ -44,10 +44,11 @@ func init() {
 	imagesCmd.Flags().BoolVarP(&imagesOps.DoImgDel, "delete-unref", "d", false, "删除没有引用的图片文件")
 	imagesCmd.Flags().BoolVarP(&imagesOps.DoRelPathFix, "fix-ref", "f", false, "修复图片的相对路径引用")
 	imagesCmd.Flags().BoolVarP(&imagesOps.DoWebImgDownload, "down-web", "w", false, "删除没有引用的图片文件")
+	imagesCmd.Flags().BoolVarP(&imagesOps.Verbose, "verbose", "v", false, "详细日志")
 }
 
-// checkAndDealOps 检查和润色输入值
-func checkAndDealOps() error {
+// checkAndDealImagesOps 检查和润色输入值
+func checkAndDealImagesOps() error {
 	if imagesOps.ImgDir == "" {
 		if imagesOps.ImgDir = os.Getenv(mdnt_img_i_env); imagesOps.ImgDir == "" {
 			return fmt.Errorf("-i is empty")
