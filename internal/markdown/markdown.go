@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 	"sync"
 
 	"github.com/thisXYH/mdnt/internal"
@@ -109,7 +111,80 @@ func getId(path string) (string, bool) {
 }
 
 func relPathFix() {
-	// TODO
+	wg := &sync.WaitGroup{}
+	docInfoMap, docInfoCh := make(map[string]docInfo), make(chan docInfo, 10)
+
+	go func() {
+		for info := range docInfoCh {
+			docInfoMap[info.id] = info
+		}
+	}()
+
+	filepath.WalkDir(ops.MdDir, func(path string, d fs.DirEntry, err error) error {
+		if d.IsDir() || filepath.Ext(d.Name()) != ".md" {
+			return nil
+		}
+		wg.Add(1)
+		go markdownResolved(path, d.Name(), wg, docInfoCh)
+		return nil
+	})
+
+	wg.Wait()
+	close(docInfoCh)
+
+	resolvedResultHandler(docInfoMap)
+}
+
+func resolvedResultHandler(docInfoMap map[string]docInfo) {
+	//TODO
+	for _, info := range docInfoMap {
+
+		for _, ref := range info.docRefs {
+			refInfo, ok := docInfoMap[ref.id]
+			if !ok {
+				continue
+			}
+
+			relPath, _ := filepath.Rel(info.absPath, refInfo.absPath)
+			relPath = filepath.ToSlash(relPath)
+
+			info.content = strings.ReplaceAll(info.content, ref.original, fmt.Sprintf("[%s](%s?%s)", ref.alter, relPath, ref.id))
+		}
+
+		internal.WriteToFile(info.absPath, info.content)
+	}
+}
+
+// markdownResolved 只处理有id的文档
+func markdownResolved(path, name string, wg *sync.WaitGroup, ch chan docInfo) {
+	defer wg.Done()
+
+	id, _ := getId(path)
+	if id == "" {
+		return
+	}
+
+	buf, _ := ioutil.ReadFile(path)
+	content := string(buf)
+	info := docInfo{
+		absPath: path,
+		name:    name,
+		id:      id,
+		content: content,
+		docRefs: []docRef{},
+	}
+
+	reg := regexp.MustCompile(`\[(.*?)\]\(.*?([0-9a-f]{32})\)`)
+
+	for _, v := range reg.FindAllStringSubmatch(content, -1) {
+		info.docRefs = append(info.docRefs, docRef{
+			original: v[0],
+			alter:    v[1],
+			id:       v[2],
+		})
+	}
+
+	ch <- info
 }
 
 func newIdWitFormat() string {
