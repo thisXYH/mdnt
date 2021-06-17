@@ -144,6 +144,7 @@ func resolvedResultHandler(docInfoMap map[string]docInfo) {
 	for _, info := range docInfoMap {
 
 		for _, ref := range info.docRefs {
+			// 尝试获取key， 如果没有说明解析到了错误的id，直接跳过。
 			refInfo, ok := docInfoMap[ref.id]
 			if !ok {
 				continue
