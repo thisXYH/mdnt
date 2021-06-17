@@ -2,7 +2,7 @@ package cmd
 
 import "github.com/spf13/cobra"
 
-const VERSION = "v1.3.2"
+const VERSION = "v1.4.0"
 
 var rootCmd = &cobra.Command{
 	Use:   "mdnt [command] [flags]",
@@ -19,6 +19,7 @@ var rootCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(imagesCmd)
 	rootCmd.AddCommand(encyptoCmd)
+	rootCmd.AddCommand(markdownCmd)
 }
 
 func Execute() error {

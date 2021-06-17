@@ -12,6 +12,13 @@
   * [X] 图片目录和笔记目录支持从环境变量读取，详情mdnt help img
 * 加密/解密处理
   * [X] 加密/解密指定文件（敏感笔记）
+* 引用笔记处理
+  * [X] 为笔记生产唯一id
+    > 指定`id`为笔记的第二行
+    > **eg:** `> id:e4405e49fa95b2122e5e0965cf1f3724`
+  * [X] 为所有未设置`id`的笔记，设置`id`
+  * [X] 修复引用笔记的相对路径
+    > 通过`[alter](path/note.md?<id>)`,语法匹配到对应的笔记
 
 ## 如何构建
 * 依赖: Golang 1.16
@@ -27,11 +34,12 @@ Usage:
 Available Commands:
   enc         加解密指定笔记
   help        Help about any command
-  img         管理 markdown 文档的图片引用
+  img         维护 markdown 文档的图片引用
+  md          维护 markdown 文档的引用
 
 Flags:
-  -h, --help      help for nt
-  -v, --version   version for nt
+  -h, --help      help for mdnt
+  -v, --version   version for mdnt
 
-Use "nt [command] --help" for more information about a command.
+Use "mdnt [command] --help" for more information about a command.
 ````
