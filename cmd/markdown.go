@@ -13,8 +13,8 @@ import (
 var markdownOps = &markdown.Options{}
 var markdownCmd = &cobra.Command{
 	Use:   "md",
-	Short: "维护 markdown 笔记的引用",
-	Long:  "维护 markdown 笔记的引用，以及笔记Id",
+	Short: "维护 markdown 文档的引用",
+	Long:  "维护 markdown 文档的引用，以及文档Id",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if err := checkAndDealMarkdownOps(); err != nil {
 			return err
@@ -31,8 +31,8 @@ var markdownCmd = &cobra.Command{
 
 func init() {
 	markdownCmd.Flags().StringVarP(&markdownOps.MdDir, "markdown-dir", "m", "", "文档目录路径,可从环境变量"+mdnt_img_m_env+"读取")
-	markdownCmd.Flags().BoolVarP(&markdownOps.DoIdSet, "id-set", "s", false, "给未设置id的笔记添加id")
-	markdownCmd.Flags().BoolVarP(&markdownOps.DoRelPathFix, "fix-ref", "f", false, "维护笔记的相对路径引用")
+	markdownCmd.Flags().BoolVarP(&markdownOps.DoIdSet, "id-set", "s", false, "给未设置id的文档添加id")
+	markdownCmd.Flags().BoolVarP(&markdownOps.DoRelPathFix, "fix-ref", "f", false, "维护文档的相对路径引用")
 	markdownCmd.Flags().BoolVarP(&markdownOps.NewId, "id-new", "n", false, "生成一个新id")
 }
 
