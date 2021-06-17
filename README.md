@@ -34,11 +34,12 @@ Usage:
 Available Commands:
   enc         加解密指定笔记
   help        Help about any command
-  img         管理 markdown 文档的图片引用
+  img         维护 markdown 文档的图片引用
+  md          维护 markdown 文档的引用
 
 Flags:
-  -h, --help      help for nt
-  -v, --version   version for nt
+  -h, --help      help for mdnt
+  -v, --version   version for mdnt
 
-Use "nt [command] --help" for more information about a command.
+Use "mdnt [command] --help" for more information about a command.
 ````
