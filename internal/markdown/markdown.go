@@ -11,6 +11,7 @@ import (
 	"regexp"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/thisXYH/mdnt/internal"
 )
@@ -130,13 +131,16 @@ func relPathFix() {
 	})
 
 	wg.Wait()
+	// 确保消息已经消耗完毕。
+	for len(docInfoCh) != 0 {
+		time.Sleep(1 * time.Millisecond)
+	}
 	close(docInfoCh)
 
 	resolvedResultHandler(docInfoMap)
 }
 
 func resolvedResultHandler(docInfoMap map[string]docInfo) {
-	//TODO
 	for _, info := range docInfoMap {
 
 		for _, ref := range info.docRefs {
@@ -145,7 +149,7 @@ func resolvedResultHandler(docInfoMap map[string]docInfo) {
 				continue
 			}
 
-			relPath, _ := filepath.Rel(info.absPath, refInfo.absPath)
+			relPath, _ := filepath.Rel(filepath.Dir(info.absPath), refInfo.absPath)
 			relPath = filepath.ToSlash(relPath)
 
 			info.content = strings.ReplaceAll(info.content, ref.original, fmt.Sprintf("[%s](%s?%s)", ref.alter, relPath, ref.id))
